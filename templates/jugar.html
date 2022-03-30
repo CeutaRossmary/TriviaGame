@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} {% from 'macros.html' import navbar %} {% block main %} {{ navbar('/seguidos') }}
+
+<h2 class="text-center">Bienvenido {{ user.name }} !!!!</h2>
+<div class="row">
+    <form method="get" action="/">
+        <div class="col-12">
+            {% for pregunta in nuevoObjeto %}
+            <div class="border p-4">
+                <input class="form-check-input" type="hidden" name="radiosp {{pregunta.id}}" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+            {{pregunta.question}}
+          </label>
+
+                <div class="form-check 1">
+                    <input class="form-check-input" type="radio" name="radiosp {{pregunta.id}}" value="{{pregunta.p1}}">
+                    <label class="form-check-label" for="flexRadioDefault2">
+          {{pregunta.p1}}
+          </label>
+                </div>
+                <div class="form-check 2">
+                    <input class="form-check-input" type="radio" name="radiosp {{pregunta.id}}" value="{{pregunta.p2}}">
+                    <label class="form-check-label" for="flexRadioDefault3">
+          {{pregunta.p2}}
+          </label>
+                </div>
+                <div class="form-check 3">
+                    <input class="form-check-input" type="radio" name="radiosp {{pregunta.id}}" value="{{pregunta.p3}}">
+                    <label class="form-check-label" for="flexRadioDefault4">
+          {{pregunta.p3}}
+          </label>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <div class="row ">
+            <div class="col-1 offset-8">
+                <a href="/" class="btn btn-primary offset-7 mt-3"> Cancel </a>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary offset-2 mt-3" type="submit">Jugar</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+{% endblock %}

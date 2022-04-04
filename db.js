@@ -24,10 +24,9 @@ async function create_user(name, email, password) {
             values: [name, email, password],
         });
     }
-
-
     client.release();
 }
+
 async function get_user(email) {
     const client = await pool.connect()
 
@@ -35,7 +34,6 @@ async function get_user(email) {
         text: 'select * from users where email=$1',
         values: [email]
     })
-
     client.release()
 
     return rows[0]
@@ -47,19 +45,17 @@ async function create_question(user_id, question, respCorrecta, respIncorrecta01
     await client.query({
         text: "insert into questions (user_id, question, respCorrecta, respIncorrecta01, respIncorrecta02) values ($1, $2, $3,$4,$5)",
         values: [user_id, question, respCorrecta, respIncorrecta01, respIncorrecta02],
-
     });
 
     client.release();
 }
+
 async function get_questions() {
     const client = await pool.connect();
 
     const { rows } = await client.query({
         text: "select * from questions order by random() limit 3",
-
     });
-
     client.release();
 
     return rows;
@@ -79,10 +75,44 @@ function shuffle(array) {
             array[currentIndex],
         ];
     }
-
     return array;
 }
 
+
+async function respuesta(pregunta, id) {
+    const client = await pool.connect();
+    const { rows } = await client.query({
+        text: "select respCorrecta=$1 as respuesta from questions where id=$2",
+        values: [pregunta, id],
+    });
+    console.log("esto devuelve row", rows[0]);
+    client.release();
+
+    return rows[0].respuesta;
+}
+
+async function score(nombre, puntaje, porcentaje) {
+    const client = await pool.connect();
+
+    const { rows } = await client.query({
+        text: "insert into score (name, puntaje, porcentaje) values ($1, $2, $3)",
+        values: [nombre, puntaje, porcentaje],
+    });
+    console.log("esto es prueba", rows);
+    client.release();
+}
+
+
+async function get_score() {
+    const client = await pool.connect();
+
+    const { rows } = await client.query({
+        text: "select * from score order by puntaje DESC",
+    });
+    client.release();
+
+    return rows;
+}
 
 module.exports = {
     get_user,
@@ -90,4 +120,7 @@ module.exports = {
     create_question,
     get_questions,
     shuffle,
+    respuesta,
+    score,
+    get_score,
 };

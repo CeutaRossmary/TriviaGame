@@ -1,47 +1,44 @@
 {% extends 'layout.html' %} {% from 'macros.html' import navbar %} {% block main %} {{ navbar('/seguidos') }}
 
-<h2 class="text-center">Bienvenido {{ user.name }} !!!!</h2>
+<h2 class="text-center text-primary">Bienvenido {{ user.name }} !!!!</h2>
 <div class="row">
-    <form method="get" action="/">
-        <div class="col-12">
-            {% for pregunta in nuevoObjeto %}
-            <div class="border p-4">
-                <input class="form-check-input" type="hidden" name="radiosp {{pregunta.id}}" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-            {{pregunta.question}}
-          </label>
 
-                <div class="form-check 1">
-                    <input class="form-check-input" type="radio" name="radiosp {{pregunta.id}}" value="{{pregunta.p1}}">
-                    <label class="form-check-label" for="flexRadioDefault2">
-          {{pregunta.p1}}
-          </label>
+    <form method="post" action='/corregir'>
+        <div class="col-12"><br> {% for pregunta in nuevoObjeto %}
+            <div class="container mb-5 text-danger fw-bold  border overflow-auto">
+                {{pregunta.question}}
+            </div>
+            <div class="container border pt-3 mb-5 fw-bold">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio1" name="radiosp{{pregunta.id}}" value="{{pregunta.p1}}">
+                    <label class="form-check-label">{{pregunta.p1}}</label>
                 </div>
-                <div class="form-check 2">
-                    <input class="form-check-input" type="radio" name="radiosp {{pregunta.id}}" value="{{pregunta.p2}}">
-                    <label class="form-check-label" for="flexRadioDefault3">
-          {{pregunta.p2}}
-          </label>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio2" name="radiosp{{pregunta.id}}" value="{{pregunta.p2}}">
+                    <label class="form-check-label">{{pregunta.p2}}</label>
                 </div>
-                <div class="form-check 3">
-                    <input class="form-check-input" type="radio" name="radiosp {{pregunta.id}}" value="{{pregunta.p3}}">
-                    <label class="form-check-label" for="flexRadioDefault4">
-          {{pregunta.p3}}
-          </label>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio3" name="radiosp{{pregunta.id}}" value="{{pregunta.p3}}">
+                    <label class="form-check-label">{{pregunta.p3}}</label>
                 </div>
             </div>
-            {%endfor%}
+            <input type="hidden" name="id" value="{{pregunta.id}}">
         </div>
-        <div class="row ">
-            <div class="col-1 offset-8">
-                <a href="/" class="btn btn-primary offset-7 mt-3"> Cancel </a>
-            </div>
-            <div class="col-3">
-                <button class="btn btn-primary offset-2 mt-3" type="submit">Jugar</button>
-            </div>
+        {% endfor %}
 
+        <!-- los botones -->
+        <div class="row justify-content-end mt-2 mb-2">
+            <div class="col-4">
+                <div class="clearfix">
+                    <span class="float-end"><a href="/" class="btn btn-danger text-white">Cancelar</a></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
         </div>
+        <!-- ****************** -->
     </form>
 </div>
-
-{% endblock %}
+</div>
+{% block styles %} {% endblock %} {% endblock %}

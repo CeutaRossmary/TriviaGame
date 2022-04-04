@@ -22,8 +22,8 @@ function protected_route(req, res, next) {
 
 // RUTAS
 router.get('/', protected_route, async(req, res) => {
-
-    res.render("index.html");
+    const scores = await get_score();
+    res.render("index.html", { scores });
 })
 
 router.get("/addQuestion", protected_route, async(req, res) => {
